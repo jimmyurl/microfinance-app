@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients | Pamoja Microfinance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                Pamoja <span>Microfinance</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="loans.html">Loans</a></li>
+                    <li><a href="clients.html" class="active">Clients</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Quick Actions</h3>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="new-loan.html">New Loan</a></li>
+                    <li><a href="new-client.html" class="active">New Client</a></li>
+                    <li><a href="disbursements.html">Disbursements</a></li>
+                    <li><a href="repayments.html">Repayments</a></li>
+                    <li><a href="reports.html">Generate Reports</a></li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <div id="alert-container"></div>
+                <h2>Client Management</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search by client name or ID">
+                    <button>Search</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table id="clients-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ID Number</th>
+                                <th>Phone</th>
+                                <th>Location</th>
+                                <th>Business</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clients-table-body">
+                            <!-- Client data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="main.js"></script>
+</body>
+</html>

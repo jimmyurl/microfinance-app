@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports | Pamoja Microfinance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                Pamoja <span>Microfinance</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="loans.html">Loans</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="reports.html" class="active">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Quick Actions</h3>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="new-loan.html">New Loan</a></li>
+                    <li><a href="new-client.html">New Client</a></li>
+                    <li><a href="disbursements.html">Disbursements</a></li>
+                    <li><a href="repayments.html">Repayments</a></li>
+                    <li><a href="reports.html" class="active">Generate Reports</a></li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <div id="alert-container"></div>
+                <h2>Generate Reports</h2>
+                
+                <form id="report-form">
+                    <div class="form-group">
+                        <label for="report-type">Report Type</label>
+                        <select id="report-type" class="form-control" required>
+                            <option value="">-- Select Report Type --</option>
+                            <option value="loan-summary">Loan Summary</option>
+                            <option value="disbursement">Disbursements</option>
+                            <option value="repayment">Repayments</option>
+                            <option value="client">Client Report</option>
+                            <option value="overdue">Overdue Loans</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="report-date-from">From Date</label>
+                        <input type="date" id="report-date-from" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="report-date-to">To Date</label>
+                        <input type="date" id="report-date-to" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="report-format">Format</label>
+                        <select id="report-format" class="form-control" required>
+                            <option value="pdf">PDF</option>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+                
+                <div id="report-preview" class="report-preview">
+                    <!-- Report preview will be shown here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loans | Pamoja Microfinance</title>
+    <style>
+        :root {
+            --primary-color: #008751;
+            --secondary-color: #f9b84d;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+            margin-left: 5px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        nav ul li a.active {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+        }
+        
+        .main-content {
+            display: flex;
+            margin: 20px 0;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-right: 20px;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar ul li a {
+            color: var(--dark-color);
+            text-decoration: none;
+            display: block;
+            padding: 8px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background-color: #f0f0f0;
+            color: var(--primary-color);
+        }
+        
+        .content {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .content h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dashboard-stats {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            flex: 1;
+            min-width: 200px;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .stat-card h3 {
+            color: var(--dark-color);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stat-card.success {
+            border-left-color: var(--success-color);
+        }
+        
+        .stat-card.warning {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .stat-card.danger {
+            border-left-color: var(--danger-color);
+        }
+        
+        .stat-card.success p {
+            color: var(--success-color);
+        }
+        
+        .stat-card.warning p {
+            color: var(--secondary-color);
+        }
+        
+        .stat-card.danger p {
+            color: var(--danger-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #006c41;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f5a623;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        table th,
+        table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background-color: #d4edda;
+            color: var(--success-color);
+        }
+        
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-danger {
+            background-color: #f8d7da;
+            color: var(--danger-color);
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        
+        .action-btn-view {
+            background-color: #e2f0ff;
+            color: #0275d8;
+            border: 1px solid #b8daff;
+        }
+        
+        .action-btn-edit {
+            background-color: #e7f5e9;
+            color: var(--success-color);
+            border: 1px solid #c3e6cb;
+        }
+        
+        .action-btn-delete {
+            background-color: #f8d7da;
+            color: var(--danger-color);
+            border: 1px solid #f5c6cb;
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+        
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--dark-color);
+            border-bottom: 3px solid transparent;
+            margin-right: 10px;
+        }
+        
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark-color);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .modal-footer button {
+            margin-left: 10px;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: var(--success-color);
+            border-left: 5px solid var(--success-color);
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: var(--danger-color);
+            border-left: 5px solid var(--danger-color);
+        }
+        
+        .alert-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .stat-card {
+                min-width: 100%;
+                margin-right: 0;
+            }
+            
+            header .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin-left: 0;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                Pamoja <span>Microfinance</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="loans.html" class="active">Loans</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Loan Management</h3>
+                <ul>
+                    <li><a href="#" class="active" id="all-loans-link">All Loans</a></li>
+                    <li><a href="#" id="active-loans-link">Active Loans</a></li>
+                    <li><a href="#" id="pending-loans-link">Pending Approval</a></li>
+                    <li><a href="#" id="overdue-loans-link">Overdue Loans</a></li>
+                    <li><a href="#" id="fully-paid-loans-link">Fully Paid Loans</a></li>
+                    <li><a href="#" id="create-loan-link">Create New Loan</a></li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <div id="all-loans-section" class="tab-content active">
+                    <h2>All Loans</h2>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search by client name, loan ID or status">
+                        <button>Search</button>
+                    </div>
+                    
+                    <div class="tab-container">
+                        <div class="tab-buttons">
+                            <button class="tab-button active" data-tab="individual-loans">Individual Loans</button>
+                            <button class="tab-button" data-tab="group-loans">Group Loans</button>
+                        </div>
+                        
+                        <div id="individual-loans" class="tab-content active">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Loan ID</th>
+                                            <th>Client Name</th>
+                                            <th>Amount (TZS)</th>
+                                            <th>Disbursement Date</th>
+                                            <th>End Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>L-2025-0001</td>
+                                            <td>Amina Hassan</td>
+                                            <td>500,000</td>
+                                            <td>15-Mar-2025</td>
+                                            <td>15-Sep-2025</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                                <button class="action-btn action-btn-edit">Edit</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>L-2025-0002</td>
+                                            <td>Joseph Mwangi</td>
+                                            <td>1,200,000</td>
+                                            <td>20-Feb-2025</td>
+                                            <td>20-Feb-2026</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                                <button class="action-btn action-btn-edit">Edit</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>L-2025-0003</td>
+                                            <td>Grace Ochieng</td>
+                                            <td>800,000</td>
+                                            <td>05-Apr-2025</td>
+                                            <td>05-Oct-2025</td>
+                                            <td><span class="badge badge-danger">Overdue</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                                <button class="action-btn action-btn-edit">Edit</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>L-2025-0004</td>
+                                            <td>Benjamin Mkapa</td>
+                                            <td>350,000</td>
+                                            <td>10-Jan-2025</td>
+                                            <td>10-Apr-2025</td>
+                                            <td><span class="badge badge-success">Fully Paid</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>L-2025-0005</td>
+                                            <td>Fatima Ibrahim</td>
+                                            <td>950,000</td>
+                                            <td>22-Mar-2025</td>
+                                            <td>22-Sep-2025</td>
+                                            <td><span class="badge badge-warning">Pending</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                                <button class="action-btn action-btn-edit">Edit</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="group-loans" class="tab-content">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Loan ID</th>
+                                            <th>Group Name</th>
+                                            <th>Members</th>
+                                            <th>Amount (TZS)</th>
+                                            <th>Disbursement Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>GL-2025-0001</td>
+                                            <td>Mwenge Market</td>
+                                            <td>12</td>
+                                            <td>3,600,000</td>
+                                            <td>01-Feb-2025</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                                <button class="action-btn action-btn-edit">Edit</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>GL-2025-0002</td>
+                                            <td>Ilala Women</td>
+                                            <td>8</td>
+                                            <td>2,400,000</td>
+                                            <td>15-Mar-2025</td>
+                                            <td><span class="badge badge-success">Active</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                                <button class="action-btn action-btn-edit">Edit</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>GL-2025-0003</td>
+                                            <td>Mbezi Farmers</td>
+                                            <td>15</td>
+                                            <td>4,500,000</td>
+                                            <td>10-Apr-2025</td>
+                                            <td><span class="badge badge-warning">Pending</span></td>
+                                            <td>
+                                                <button class="action-btn action-btn-view">View</button>
+                                                <button class="action-btn action-btn-edit">Edit</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="create-loan-section" class="tab-content">
+                    <h2>Create New Loan</h2>
+                    <form id="loan-form">
+                        <div class="form-group">
+                            <label for="loan-type">Loan Type</label>
+                            <select id="loan-type" class="form-control" required>
+                                <option value="">-- Select Loan Type --</option>
+                                <option value="individual">Individual Loan</option>
+                                <option value="group">Group Loan</option>
+                            </select>
+                        </div>
+                        
+                        <div id="individual-loan-fields">
+                            <div class="form-group">
+                                <label for="client-select">Select Client</label>
+                                <select id="client-select" class="form-control" required>
+                                    <option value="">-- Select Client --</option>
+                                    <option value="1">Amina Hassan</option>
+                                    <option value="2">Joseph Mwangi</option>
+                                    <option value="3">Grace Ochieng</option>
+                                    <option value="4">Benjamin Mkapa</option>
+                                    <option value="5">Fatima Ibrahim</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="group-loan-fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="group-select">Select Group</label>
+                                <select id="group-select" class="form-control">
+                                    <option value="">-- Select Group --</option>
+                                    <option value="1">Mwenge Market</option>
+                                    <option value="2">Kariakoo Traders</option>
+                                    <option value="3">Ilala Women</option>
+                                    <option value="4">Mbezi Farmers</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loan-product">Loan Product</label>
+                            <select id="loan-product" class="form-control" required>
+                                <option value="">-- Select Loan Product --</option>
+                                <option value="business">Business Loan</option>
+                                <option value="agriculture">Agriculture Loan</option>
+                                <option value="education">Education Loan</option>
+                                <option value="emergency">Emergency Loan</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loan-amount">Loan Amount (TZS)</label>
+                            <input type="number" id="loan-amount" class="form-control" required min="50000" step="10000">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loan-purpose">Loan Purpose</label>
+                            <select id="loan-purpose" class="form-control" required>
+                                <option value="">-- Select Purpose --</option>
+                                <option value="Business">Business</option>
+                                <option value="Agriculture">Agriculture</option>
+                                <option value="Education">Education</option>
+                                <option value="Home Improvement">Home Improvement</option>
+                                <option value="Emergency">Emergency</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loan-term">Loan Term (Months)</label>
+                            <input type="number" id="loan-term" class="form-control" required min="1" max="36">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-rate">Interest Rate (%)</label>
+                            <input type="number" id="interest-rate" class="form-control" required min="0" max="100" step="0.1" value="15">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="disbursement-date">Disbursement Date</label>
+                            <input type="date" id="disbursement-date" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="payment-frequency">Payment Frequency</label>
+                            <select id="payment-frequency" class="form-control" required>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Bi-weekly">Bi-weekly</option>
+                                <option value="Monthly" selected>Monthly</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Create Loan</button>
+                    </form>
+                </div>
+                
+                <div id="loan-details-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Loan Details</h3>
+                            <button class="close-modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Loan ID</label>
+                                <p id="detail-loan-id">L-2025-0001</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Client Name</label>
+                                <p id="detail-client-name">Amina Hassan</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Loan Amount</label>
+                                <p id="detail-loan-amount">TZS 500,000</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Loan Term</label>
+                                <p id="detail-loan-term">6 Months</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Interest Rate</label>
+                                <p id="detail-interest-rate">15%</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Disbursement Date</label>
+                                <p id="detail-disbursement-date">15-Mar-2025</p>
+                            </div>
+                            <div class="form-group">
+                                <label>End Date</label>
+                                <p id="detail-end-date">15-Sep-2025</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Schedule</label>
+                                <p id="detail-payment-schedule">Monthly</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <p id="detail-status"><span class="badge badge-success">Active</span></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Total Paid</label>
+                                <p id="detail-total-paid">TZS 166,667 (2/6 installments)</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Remaining Balance</label>
+                                <p id="detail-remaining-balance">TZS 371,667</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Next Payment Due</label>
+                                <p id="detail-next-payment">TZS 92,917 (Due: 15-May-2025)</p>
+                            </div>
+                        </div>
+                        <div
