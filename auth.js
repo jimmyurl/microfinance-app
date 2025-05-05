@@ -118,6 +118,55 @@ async function ensureUserProfilesTable() {
     }
 }
 
+// Check authentication status
+function checkAuth() {
+    try {
+        const auth = JSON.parse(sessionStorage.getItem('auth'));
+        if (!auth || !auth.user) {
+            logDebug('No authentication data found, redirecting to login');
+            window.location.href = 'login.html';
+            return false;
+        }
+        return true;
+    } catch (error) {
+        logDebug('Error checking authentication', error);
+        window.location.href = 'login.html';
+        return false;
+    }
+}
+
+// Handle logout
+async function logout() {
+    try {
+        logDebug('Logging out user');
+        
+        // If Supabase client is initialized, sign out
+        if (supabaseClient) {
+            await supabaseClient.auth.signOut();
+        }
+        
+        // Clear session storage
+        sessionStorage.removeItem('auth');
+        
+        // Redirect to login page
+        window.location.href = 'login.html';
+        
+        logDebug('Logout complete');
+    } catch (error) {
+        logDebug('Error during logout', error);
+        // Still redirect to login page even if there's an error
+        window.location.href = 'login.html';
+    }
+}
+
+// Prevent back button navigation to protected pages after logout
+function preventBackNavigation() {
+    if (!sessionStorage.getItem('auth')) {
+        logDebug('No auth detected, preventing access to protected page');
+        window.location.replace('login.html');
+    }
+}
+
 // Main initialization function
 async function init() {
     try {
@@ -125,128 +174,189 @@ async function init() {
         
         // Try to load Supabase client
         await loadSupabase();
+
+        // Check if we're on login page
+        const isLoginPage = window.location.pathname.includes('login.html') || 
+                           window.location.pathname.endsWith('/login') ||
+                           window.location.pathname === '/' ||
+                           window.location.pathname === '';
         
-        const loginForm = document.getElementById('login-form');
-        const alertContainer = document.getElementById('alert-container');
-        
-        if (!loginForm) {
-            logDebug('Login form not found!');
-            return;
-        }
-        
-        if (!alertContainer) {
-            logDebug('Alert container not found!');
-        }
-        
-        // Ensure the user_profiles table exists
-        const tableCreated = await ensureUserProfilesTable();
-        if (!tableCreated) {
-            showAlert('Failed to initialize database tables. Please contact support.', 'danger', alertContainer);
-        }
-        
-        // Add an admin setup button for first-time setup
-        const setupButton = document.createElement('button');
-        setupButton.type = 'button';
-        setupButton.className = 'btn btn-link';
-        setupButton.textContent = 'First Time Setup? Create Admin Account';
-        setupButton.style.marginTop = '10px';
-        setupButton.id = 'admin-setup-button';
-        
-        // Add the setup button after the login form
-        const loginFooter = document.querySelector('.login-footer');
-        if (loginFooter) {
-            loginFooter.insertBefore(setupButton, loginFooter.firstChild);
+        if (isLoginPage) {
+            // We're on the login page
+            initLoginPage();
         } else {
-            loginForm.parentNode.appendChild(setupButton);
+            // We're on a protected page - check auth and setup logout
+            if (checkAuth()) {
+                // Prevent back button navigation to login page
+                window.history.pushState(null, null, window.location.href);
+                window.onpopstate = function() {
+                    window.history.pushState(null, null, window.location.href);
+                };
+                
+                // Setup logout button
+                setupLogoutButton();
+            }
         }
-        
-        // Setup button click handler
-        setupButton.addEventListener('click', function() {
-            logDebug('Admin setup button clicked');
-            showAdminSetupForm();
-        });
-        
-        // Login form submission
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            logDebug('Login form submitted');
-            
-            const email = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            
-            if (!email || !password) {
-                showAlert('Email and password are required', 'danger', alertContainer);
-                return;
-            }
-            
-            try {
-                // Show loading state
-                const submitBtn = loginForm.querySelector('button[type="submit"]');
-                const originalBtnText = submitBtn.textContent;
-                submitBtn.textContent = 'Logging in...';
-                submitBtn.disabled = true;
-                
-                // Authenticate with Supabase
-                logDebug('Attempting to sign in with email:', email);
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email,
-                    password
-                });
-                
-                if (error) {
-                    logDebug('Sign in error:', error);
-                    throw error;
-                }
-                
-                logDebug('Sign in successful. Getting user profile...');
-                
-                // Get user role from profiles table
-                const { data: profile, error: profileError } = await supabaseClient
-                    .from('user_profiles')
-                    .select('role, branch')
-                    .eq('user_id', data.user.id)
-                    .single();
-                
-                if (profileError) {
-                    logDebug('Error fetching user profile:', profileError);
-                    throw profileError;
-                }
-                
-                logDebug('User profile retrieved:', profile);
-                
-                // Store user session
-                sessionStorage.setItem('auth', JSON.stringify({
-                    user: data.user,
-                    role: profile.role,
-                    branch: profile.branch
-                }));
-                
-                logDebug('Auth data stored in session. Redirecting based on role:', profile.role);
-                
-                // Redirect based on role
-                if (profile.role === 'admin') {
-                    window.location.href = 'index.html';
-                } else {
-                    window.location.href = 'clients.html';
-                }
-                
-            } catch (error) {
-                logDebug('Login error:', error);
-                showAlert('Login failed: ' + (error.message || 'Unknown error'), 'danger', alertContainer);
-                
-                // Reset button state
-                const submitBtn = loginForm.querySelector('button[type="submit"]');
-                if (submitBtn) {
-                    submitBtn.textContent = originalBtnText || 'Login';
-                    submitBtn.disabled = false;
-                }
-            }
-        });
     } catch (error) {
         logDebug('Error in init function:', error);
         const alertContainer = document.getElementById('alert-container');
         showAlert('Failed to initialize the application: ' + (error.message || 'Unknown error'), 'danger', alertContainer);
     }
+}
+
+// Setup logout button functionality
+function setupLogoutButton() {
+    const logoutBtn = document.getElementById('logout-link');
+    if (logoutBtn) {
+        logDebug('Setting up logout button');
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+    } else {
+        logDebug('Logout button not found on this page');
+    }
+}
+
+// Initialize login page functionality
+function initLoginPage() {
+    const loginForm = document.getElementById('login-form');
+    const alertContainer = document.getElementById('alert-container');
+    
+    if (!loginForm) {
+        logDebug('Login form not found!');
+        return;
+    }
+    
+    if (!alertContainer) {
+        logDebug('Alert container not found!');
+    }
+    
+    // Check if user is already logged in
+    try {
+        const auth = JSON.parse(sessionStorage.getItem('auth'));
+        if (auth && auth.user) {
+            logDebug('User already logged in, redirecting based on role');
+            // Redirect based on role
+            if (auth.role === 'admin') {
+                window.location.replace('index.html');
+            } else {
+                window.location.replace('clients.html');
+            }
+            return;
+        }
+    } catch (error) {
+        logDebug('Error checking existing auth session', error);
+    }
+    
+    // Ensure the user_profiles table exists
+    ensureUserProfilesTable().then(tableCreated => {
+        if (!tableCreated) {
+            showAlert('Failed to initialize database tables. Please contact support.', 'danger', alertContainer);
+        }
+    });
+    
+    // Add an admin setup button for first-time setup
+    const setupButton = document.createElement('button');
+    setupButton.type = 'button';
+    setupButton.className = 'btn btn-link';
+    setupButton.textContent = 'First Time Setup? Create Admin Account';
+    setupButton.style.marginTop = '10px';
+    setupButton.id = 'admin-setup-button';
+    
+    // Add the setup button after the login form
+    const loginFooter = document.querySelector('.login-footer');
+    if (loginFooter) {
+        loginFooter.insertBefore(setupButton, loginFooter.firstChild);
+    } else {
+        loginForm.parentNode.appendChild(setupButton);
+    }
+    
+    // Setup button click handler
+    setupButton.addEventListener('click', function() {
+        logDebug('Admin setup button clicked');
+        showAdminSetupForm();
+    });
+    
+    // Login form submission
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        logDebug('Login form submitted');
+        
+        const email = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        
+        if (!email || !password) {
+            showAlert('Email and password are required', 'danger', alertContainer);
+            return;
+        }
+        
+        try {
+            // Show loading state
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Logging in...';
+            submitBtn.disabled = true;
+            
+            // Authenticate with Supabase
+            logDebug('Attempting to sign in with email:', email);
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+            
+            if (error) {
+                logDebug('Sign in error:', error);
+                throw error;
+            }
+            
+            logDebug('Sign in successful. Getting user profile...');
+            
+            // Get user role from profiles table
+            const { data: profile, error: profileError } = await supabaseClient
+                .from('user_profiles')
+                .select('role, branch')
+                .eq('user_id', data.user.id)
+                .single();
+            
+            if (profileError) {
+                logDebug('Error fetching user profile:', profileError);
+                throw profileError;
+            }
+            
+            logDebug('User profile retrieved:', profile);
+            
+            // Store user session
+            sessionStorage.setItem('auth', JSON.stringify({
+                user: data.user,
+                role: profile.role,
+                branch: profile.branch
+            }));
+            
+            logDebug('Auth data stored in session. Redirecting based on role:', profile.role);
+            
+            // Prevent going back to login page
+            window.history.pushState(null, null, profile.role === 'admin' ? 'index.html' : 'clients.html');
+            
+            // Redirect based on role
+            if (profile.role === 'admin') {
+                window.location.replace('index.html');
+            } else {
+                window.location.replace('clients.html');
+            }
+            
+        } catch (error) {
+            logDebug('Login error:', error);
+            showAlert('Login failed: ' + (error.message || 'Unknown error'), 'danger', alertContainer);
+            
+            // Reset button state
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.textContent = originalBtnText || 'Login';
+                submitBtn.disabled = false;
+            }
+        }
+    });
 }
 
 // Create and show admin setup form
@@ -438,6 +548,13 @@ function showAdminSetupForm() {
         }
     });
 }
+
+// Export functions for use in other scripts
+window.ASSEAuth = {
+    checkAuth,
+    logout,
+    showAlert
+};
 
 // Start the initialization process
 document.addEventListener('DOMContentLoaded', init);
