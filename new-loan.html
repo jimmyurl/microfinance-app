@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Loan | ASSE Microfinance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                ASSE <span>Microfinance</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="loan.html" class="active">Loans</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Quick Actions</h3>
+                <ul>
+                    <li><a href="index.html" id="dashboard-link">Dashboard</a></li>
+                    <li><a href="new-loan.html" class="active" id="new-loan-link">New Loan</a></li>
+                    <li><a href="new-client.html" id="new-client-link">New Client</a></li>
+                    <li><a href="disbursements.html" id="disbursement-link">Disbursements</a></li>
+                    <li><a href="repayments.html" id="repayment-link">Repayments</a></li>
+                    <li><a href="reports.html" id="reports-link">Generate Reports</a></li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <div id="new-loan-section" class="tab-content active">
+                    <h2>Create New Loan</h2>
+                    <div id="alert-container"></div>
+                    
+                    <form id="new-loan-form" class="form-container">
+                        <div class="form-section">
+                            <h3>Client Information</h3>
+                            <div class="form-group">
+                                <label for="client-select">Select Client:</label>
+                                <select id="client-select" required>
+                                    <option value="">Select a client</option>
+                                    <!-- Client options will be loaded dynamically -->
+                                </select>
+                                <button type="button" class="secondary-button" id="new-client-button">Add New Client</button>
+                            </div>
+                            
+                            <div class="client-details" id="client-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Full Name:</span>
+                                    <span class="detail-value" id="client-name">--</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">ID Number:</span>
+                                    <span class="detail-value" id="client-id">--</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Phone:</span>
+                                    <span class="detail-value" id="client-phone">--</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Current Loans:</span>
+                                    <span class="detail-value" id="client-current-loans">--</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Loan Details</h3>
+                            <div class="form-group">
+                                <label for="loan-amount">Loan Amount (TZS):</label>
+                                <input type="number" id="loan-amount" required min="50000" step="10000">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="loan-purpose">Loan Purpose:</label>
+                                <select id="loan-purpose" required>
+                                    <option value="">Select purpose</option>
+                                    <option value="business">Business Expansion</option>
+                                    <option value="agriculture">Agricultural Investment</option>
+                                    <option value="education">Education</option>
+                                    <option value="housing">Housing Improvement</option>
+                                    <option value="emergency">Emergency Needs</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="purpose-other-container" style="display: none;">
+                                <label for="purpose-other">Specify Other Purpose:</label>
+                                <input type="text" id="purpose-other">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="loan-term">Loan Term (Months):</label>
+                                <select id="loan-term" required>
+                                    <option value="3">3 Months</option>
+                                    <option value="6">6 Months</option>
+                                    <option value="12" selected>12 Months</option>
+                                    <option value="18">18 Months</option>
+                                    <option value="24">24 Months</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="interest-rate">Interest Rate (%):</label>
+                                <input type="number" id="interest-rate" value="15" min="1" max="30" step="0.5" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="payment-frequency">Repayment Frequency:</label>
+                                <select id="payment-frequency" required>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="biweekly">Bi-weekly</option>
+                                    <option value="monthly" selected>Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Loan Calculation</h3>
+                            <div class="calculation-box">
+                                <div class="calculation-item">
+                                    <span class="calculation-label">Principal Amount:</span>
+                                    <span class="calculation-value" id="calc-principal">TZS 0</span>
+                                </div>
+                                <div class="calculation-item">
+                                    <span class="calculation-label">Total Interest:</span>
+                                    <span class="calculation-value" id="calc-interest">TZS 0</span>
+                                </div>
+                                <div class="calculation-item">
+                                    <span class="calculation-label">Total Repayment:</span>
+                                    <span class="calculation-value" id="calc-total">TZS 0</span>
+                                </div>
+                                <div class="calculation-item">
+                                    <span class="calculation-label">Installment Amount:</span>
+                                    <span class="calculation-value" id="calc-installment">TZS 0</span>
+                                </div>
+                            </div>
+                            <button type="button" id="calculate-button" class="secondary-button">Calculate</button>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Guarantor Information</h3>
+                            <div class="form-group">
+                                <label for="guarantor-name">Guarantor Full Name:</label>
+                                <input type="text" id="guarantor-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guarantor-id">Guarantor ID Number:</label>
+                                <input type="text" id="guarantor-id" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guarantor-phone">Guarantor Phone Number:</label>
+                                <input type="tel" id="guarantor-phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="guarantor-relationship">Relationship to Client:</label>
+                                <select id="guarantor-relationship" required>
+                                    <option value="">Select relationship</option>
+                                    <option value="family">Family Member</option>
+                                    <option value="business">Business Partner</option>
+                                    <option value="employer">Employer</option>
+                                    <option value="friend">Friend</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="save-draft-button" class="secondary-button">Save as Draft</button>
+                            <button type="button" id="view-schedule-button" class="secondary-button">View Repayment Schedule</button>
+                            <button type="submit" id="submit-loan-button" class="primary-button">Submit Loan Application</button>
+                        </div>
+                    </form>
+                    
+                    <div id="repayment-schedule" class="hidden">
+                        <h3>Repayment Schedule</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Payment No.</th>
+                                    <th>Due Date</th>
+                                    <th>Principal</th>
+                                    <th>Interest</th>
+                                    <th>Total Payment</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schedule-table-body">
+                                <!-- Schedule will be generated here -->
+                            </tbody>
+                        </table>
+                        <button type="button" id="hide-schedule-button" class="secondary-button">Hide Schedule</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="new-loan.js"></script>
+</body>
+</html>

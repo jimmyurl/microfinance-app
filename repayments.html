@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repayments | ASSE Microfinance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                ASSE <span>Microfinance</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="loan.html" class="active">Loans</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Quick Actions</h3>
+                <ul>
+                    <li><a href="index.html" id="dashboard-link">Dashboard</a></li>
+                    <li><a href="new-loan.html" id="new-loan-link">New Loan</a></li>
+                    <li><a href="new-client.html" id="new-client-link">New Client</a></li>
+                    <li><a href="disbursements.html" id="disbursement-link">Disbursements</a></li>
+                    <li><a href="repayments.html" class="active" id="repayment-link">Repayments</a></li>
+                    <li><a href="reports.html" id="reports-link">Generate Reports</a></li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <div id="repayments-section" class="tab-content active">
+                    <h2>Loan Repayments</h2>
+                    <div id="alert-container"></div>
+                    
+                    <div class="tab-navigation">
+                        <button class="tab-button active" data-tab="due-repayments">Due Repayments</button>
+                        <button class="tab-button" data-tab="recent-repayments">Recent Repayments</button>
+                        <button class="tab-button" data-tab="overdue-repayments">Overdue Repayments</button>
+                    </div>
+                    
+                    <div id="due-repayments" class="subtab-content active">
+                        <div class="action-bar">
+                            <div class="search-bar">
+                                <input type="text" id="search-due" placeholder="Search by client name or loan ID">
+                                <button>Search</button>
+                            </div>
+                            <div class="filter-options">
+                                <select id="filter-due">
+                                    <option value="all">All Due Repayments</option>
+                                    <option value="today" selected>Due Today</option>
+                                    <option value="week">Due This Week</option>
+                                    <option value="month">Due This Month</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Loan ID</th>
+                                        <th>Client Name</th>
+                                        <th>Due Date</th>
+                                        <th>Installment Amount (TZS)</th>
+                                        <th>Outstanding Balance</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="due-repayments-body">
+                                    <!-- Due repayments will be loaded here -->
+                                    <tr>
+                                        <td>L-2025-038</td>
+                                        <td>Grace Mwangi</td>
+                                        <td>05-05-2025</td>
+                                        <td>120,000</td>
+                                        <td>480,000</td>
+                                        <td><span class="status-tag due">Due Today</span></td>
+                                        <td>
+                                            <button class="action-button collect-button">Collect Payment</button>
+                                            <button class="action-button view-button">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>L-2025-039</td>
+                                        <td>John Ochieng</td>
+                                        <td>05-05-2025</td>
+                                        <td>150,000</td>
+                                        <td>750,000</td>
+                                        <td><span class="status-tag due">Due Today</span></td>
+                                        <td>
+                                            <button class="action-button collect-button">Collect Payment</button>
+                                            <button class="action-button view-button">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="recent-repayments" class="subtab-content">
+                        <div class="action-bar">
+                            <div class="search-bar">
+                                <input type="text" id="search-recent" placeholder="Search by client name or loan ID">
+                                <button>Search</button>
+                            </div>
+                            <div class="filter-options">
+                                <select id="filter-recent">
+                                    <option value="all">All Repayments</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month" selected>This Month</option>
+                                </select>
+                            </div>
+                            <button id="export-repayments" class="secondary-button">Export to Excel</button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Loan ID</th>
+                                        <th>Client Name</th>
+                                        <th>Payment Date</th>
+                                        <th>Amount Paid (TZS)</th>
+                                        <th>Payment Method</th>
+                                        <th>Collected By</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-repayments-body">
+                                    <!-- Recent repayments will be loaded here -->
+                                    <tr>
+                                        <td>L-2025-035</td>
+                                        <td>Faith Wambui</td>
+                                        <td>04-05-2025</td>
+                                        <td>100,000</td>
+                                        <td>Mobile Money</td>
+                                        <td>Sarah Okello</td>
+                                        <td>
+                                            <button class="action-button view-button">View</button>
+                                            <button class="action-button print-button">Receipt</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>L-2025-037</td>
+                                        <td>Daniel Mwenda</td>
+                                        <td>03-05-2025</td>
+                                        <td>200,000</td>
+                                        <td>Cash</td>
+                                        <td>John Makori</td>
+                                        <td>
+                                            <button class="action-button view-button">View</button>
+                                            <button class="action-button print-button">Receipt</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="overdue-repayments" class="subtab-content">
+                        <div class="action-bar">
+                            <div class="search-bar">
+                                <input type="text" id="search-overdue" placeholder="Search by client name or loan ID">
+                                <button>Search</button>
+                            </div>
+                            <div class="filter-options">
+                                <select id="filter-overdue">
+                                    <option value="all">All Overdue</option>
+                                    <option value="1-7">1-7 Days</option>
+                                    <option value="8-30">8-30 Days</option>
+                                    <option value="30+">Over 30 Days</option>
+                                </select>
+                            </div>
+                            <button id="generate-notices" class="secondary-button">Generate Notices</button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Loan ID</th>
+                                        <th>Client Name</th>
+                                        <th>Due Date</th>
+                                        <th>Days Overdue</th>
+                                        <th>Amount Due (TZS)</th>
+                                        <th>Penalty (TZS)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="overdue-repayments-body">
+                                    <!-- Overdue repayments will be loaded here -->
+                                    <tr>
+                                        <td>L-2025-032</td>
+                                        <td>Patrick Ngigi</td>
+                                        <td>28-04-2025</td>
+                                        <td>7</td>
+                                        <td>150,000</td>
+                                        <td>7,500</td>
+                                        <td>
+                                            <button class="action-button collect-button">Collect Payment</button>
+                                            <button class="action-button message-button">Send SMS</button>
+                                            <button class="action-button view-button">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>L-2025-030</td>
+                                        <td>Beatrice Auma</td>
+                                        <td>20-04-2025</td>
+                                        <td>15</td>
+                                        <td>180,000</td>
+                                        <td>27,000</td>
+                                        <td>
+                                            <button class="action-button collect-button">Collect Payment</button>
+                                            <button class="action-button message-button">Send SMS</button>
+                                            <button class="action-button view-button">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Collection Modal -->
+                    <div id="payment-modal" class="modal hidden">
+                        <div class="modal-content">
+                            <span class="close-modal">&times;</span>
+                            <h3>Collect Loan Repayment</h3>
+                            
+                            <div class="loan-summary">
+                                <div class="summary-item">
+                                    <span class="summary-label">Client:</span>
+                                    <span class="summary-value" id="modal-client-name">--</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Loan ID:</span>
+                                    <span class="summary-value" id="modal-loan-id">--</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Amount Due:</span>
+                                    <span class="summary-value" id="modal-amount-due">--</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Due Date:</span>
+                                    <span class="summary-value" id="modal-due-date">--</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Penalties:</span>
+                                    <span class="summary-value" id="modal-penalties">--</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Total Due:</span>
+                                    <span class="summary-value" id="modal-total-due">--</span>
+                                </div>
+                            </div>
+                            
+                            <form id="payment-form">
+                                <div class="form-group">
+                                    <label for="payment-date">Payment Date:</label>
+                                    <input type="date" id="payment-date" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="payment-amount">Amount Paid (TZS):</label>
+                                    <input type="number" id="payment-amount" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="payment-method">Payment Method:</label>
+                                    <select id="payment-method" required>
+                                        <option value="">Select Method</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="bank_transfer">Bank Transfer</option>
+                                        <option value="mobile_money">Mobile Money</option>
+                                        <option value="check">Check</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group payment-details" id="bank-details" style="display: none;">
+                                    <label for="bank-name">Bank Name:</label>
+                                    <input type="text" id="bank-name">
+                                    
+                                    <label for="account-number">Account Number:</label>
+                                    <input type="text" id="account-number">
+                                    
+                                    <label for="reference-number">Reference Number:</label>
+                                    <input type="text" id="reference-number">
+                                </div>
+                                
+                                <div class="form-group payment-details" id="mobile-details" style="display: none;">
+                                    <label for="mobile-provider">Mobile Provider:</label>
+                                    <select id="mobile-provider">
+                                        <option value="mpesa">M-Pesa</option>
+                                        <option value="tigopesa">Tigo Pesa</option>
+                                        <option value="airtelmoney">Airtel Money</option>
+                                    </select>
+                                    
+                                    <label for="mobile-number">Mobile Number:</label>
+                                    <input type="tel" id="mobile-number">
+                                    
+                                    <label for="transaction-id">Transaction ID:</label>
+                                    <input type="text" id="transaction-id">
+                                </div>
+                                
+                                <div class="form-group payment-details" id="check-details" style="display: none;">
+                                    <label for="check-number">Check Number:</label>
+                                    <input type="text" id="check-number">
+                                    
+                                    <label for="check-date">Check Date:</label>
+                                    <input type="date" id="check-date">
+                                    
+                                    <label for="bank-drawn">Bank Drawn On:</label>
+                                    <input type="text" id="bank-drawn">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="payment-notes">Notes:</label>
+                                    <textarea id="payment-notes" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="button secondary-button" id="cancel-payment">Cancel</button>
+                                    <button type="submit" class="button primary-button" id="process-payment">Process Payment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Receipt Modal -->
+                    <div id="receipt-modal" class="modal hidden">
+                        <div class="modal-content">
+                            <span class="close-modal">&times;</span>
+                            <h3>Payment Receipt</h3>
+                            
+                            <div id="receipt-content">
+                                <div class="receipt-header">
+                                    <div class="company-logo">ASSE Microfinance</div>
+                                    <div class="receipt-title">Loan Repayment Receipt</div>
+                                </div>
+                                
+                                <div class="receipt-details">
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Receipt No:</span>
+                                        <span class="receipt-value" id="receipt-number">--</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Date:</span>
+                                        <span class="receipt-value" id="receipt-date">--</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Loan ID:</span>
+                                        <span class="receipt-value" id="receipt-loan-id">--</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Client Name:</span>
+                                        <span class="receipt-value" id="receipt-client-name">--</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Amount Paid:</span>
+                                        <span class="receipt-value" id="receipt-amount">--</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Payment Method:</span>
+                                        <span class="receipt-value" id="receipt-method">--</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Transaction Reference:</span>
+                                        <span class="receipt-value" id="receipt-reference">--</span>
+                                    </div>
+                                    <div class="receipt-row">
+                                        <span class="receipt-label">Collected By:</span>
+                                        <span class="receipt-value" id="receipt-officer">--</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="receipt-signatures">
+                                    <div class="signature-block">
+                                        <div class="signature-line">________________</div>
+                                        <div class="signature-name">Officer Signature</div>
+                                    </div>
+                                    <div class="signature-block">
+                                        <div class="signature-line">________________</div>
+                                        <div class="signature-name">Client Signature</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="receipt-footer">
+                                    <p>This is an electronic receipt. Thank you for working with ASSE Microfinance.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="receipt-actions">
+                                <button class="button secondary-button" id="download-receipt">Download PDF</button>
+                                <button class="button primary-button" id="print-receipt">Print Receipt</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- SMS Modal -->
+                    <div id="sms-modal" class="modal hidden">
+                        <div class="modal-content">
+                            <span class="close-modal">&times;</span>
+                            <h3>Send Payment Reminder</h3>
+                            
+                            <div class="client-info">
+                                <div class="info-item">
+                                    <span class="info-label">Client:</span>
+                                    <span class="info-value" id="sms-client-name">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Phone:</span>
+                                    <span class="info-value" id="sms-client-phone">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Amount Due:</span>
+                                    <span class="info-value" id="sms-amount-due">--</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Days Overdue:</span>
+                                    <span class="info-value" id="sms-days-overdue">--</span>
+                                </div>
+                            </div>
+                            
+                            <form id="sms-form">
+                                <div class="form-group">
+                                    <label for="message-template">Message Template:</label>
+                                    <select id="message-template">
+                                        <option value="gentle">Gentle Reminder</option>
+                                        <option value="standard" selected>Standard Reminder</option>
+                                        <option value="urgent">Urgent Reminder</option>
+                                        <option value="custom">Custom Message</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message-text">Message:</label>
+                                    <textarea id="message-text" rows="5"></textarea>
+                                    <div class="character-count">
+                                        <span id="character-count">0</span>/160 characters
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="button secondary-button" id="cancel-sms">Cancel</button>
+                                    <button type="submit" class="button primary-button" id="send-sms">Send SMS</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ASSE Microfinance. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="js/repayments.js"></script>
+</body>
+</html>

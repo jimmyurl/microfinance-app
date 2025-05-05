@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Client | ASSE Microfinance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                ASSE <span>Microfinance</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="loan.html">Loans</a></li>
+                    <li><a href="clients.html" class="active">Clients</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Quick Actions</h3>
+                <ul>
+                    <li><a href="index.html" id="dashboard-link">Dashboard</a></li>
+                    <li><a href="new-loan.html" id="new-loan-link">New Loan</a></li>
+                    <li><a href="new-client.html" class="active" id="new-client-link">New Client</a></li>
+                    <li><a href="disbursements.html" id="disbursement-link">Disbursements</a></li>
+                    <li><a href="repayments.html" id="repayment-link">Repayments</a></li>
+                    <li><a href="reports.html" id="reports-link">Generate Reports</a></li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <div id="new-client-section" class="tab-content active">
+                    <h2>Register New Client</h2>
+                    <div id="alert-container"></div>
+                    
+                    <form id="new-client-form" class="form-container">
+                        <div class="form-section">
+                            <h3>Personal Information</h3>
+                            <div class="form-group">
+                                <label for="first-name">First Name:</label>
+                                <input type="text" id="first-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="last-name">Last Name:</label>
+                                <input type="text" id="last-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gender">Gender:</label>
+                                <select id="gender" required>
+                                    <option value="">Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="date-of-birth">Date of Birth:</label>
+                                <input type="date" id="date-of-birth" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="id-type">ID Type:</label>
+                                <select id="id-type" required>
+                                    <option value="">Select ID type</option>
+                                    <option value="national-id">National ID</option>
+                                    <option value="passport">Passport</option>
+                                    <option value="voters-card">Voter's Card</option>
+                                    <option value="driving-license">Driving License</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="id-number">ID Number:</label>
+                                <input type="text" id="id-number" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Contact Information</h3>
+                            <div class="form-group">
+                                <label for="phone-number">Phone Number:</label>
+                                <input type="tel" id="phone-number" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="alternative-phone">Alternative Phone (Optional):</label>
+                                <input type="tel" id="alternative-phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address (Optional):</label>
+                                <input type="email" id="email">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="physical-address">Physical Address:</label>
+                                <textarea id="physical-address" rows="2" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="district">District:</label>
+                                <input type="text" id="district" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="region">Region:</label>
+                                <input type="text" id="region" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Business Information</h3>
+                            <div class="form-group">
+                                <label for="business-type">Business Type:</label>
+                                <select id="business-type" required>
+                                    <option value="">Select business type</option>
+                                    <option value="retail">Retail Shop</option>
+                                    <option value="agriculture">Agriculture</option>
+                                    <option value="food">Food & Catering</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="services">Services</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="business-name">Business Name (Optional):</label>
+                                <input type="text" id="business-name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="business-address">Business Address:</label>
+                                <textarea id="business-address" rows="2" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="business-duration">Business Duration (Years):</label>
+                                <input type="number" id="business-duration" min="0" step="0.5" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="monthly-income">Estimated Monthly Income (TZS):</label>
+                                <input type="number" id="monthly-income" min="0" step="10000" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Next of Kin</h3>
+                            <div class="form-group">
+                                <label for="kin-name">Full Name:</label>
+                                <input type="text" id="kin-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="kin-relationship">Relationship:</label>
+                                <select id="kin-relationship" required>
+                                    <option value="">Select relationship</option>
+                                    <option value="spouse">Spouse</option>
+                                    <option value="parent">Parent</option>
+                                    <option value="child">Child</option>
+                                    <option value="sibling">Sibling</option>
+                                    <option value="other">Other Relative</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="kin-phone">Phone Number:</label>
+                                <input type="tel" id="kin-phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="kin-address">Address:</label>
+                                <textarea id="kin-address" rows="2" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Document Upload</h3>
+                            <div class="form-group">
+                                <label for="id-photo">ID Document:</label>
+                                <input type="file" id="id-photo" accept="image/*,.pdf">
+                                <small>Upload a clear photo or scan of the ID document</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="client-photo">Client Photo:</label>
+                                <input type="file" id="client-photo" accept="image/*">
+                                <small>Upload a recent passport-size photo</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="business-photo">Business Photo (Optional):</label>
+                                <input type="file" id="business-photo" accept="image/*">
+                                <small>Upload a photo of the business premises</small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="save-draft-button" class="secondary-button">Save as Draft</button>
+                            <button type="reset" id="reset-button" class="secondary-button">Reset Form</button>
+                            <button type="submit" id="submit-client-button" class="primary-button">Register Client</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="new-client.js"></script>
+</body>
+</html>
